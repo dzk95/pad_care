@@ -64,6 +64,14 @@ export function Booking() {
               <input type="tel" name="phone" placeholder="请输入联系电话" />
             </label>
             <label>
+              狗狗名字
+              <input
+                type="text"
+                name="dogName"
+                placeholder="请输入狗狗名字"
+              />
+            </label>
+            <label>
               宠物类型
               <select name="pet">
                 <option>小型犬</option>
