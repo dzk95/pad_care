@@ -694,13 +694,30 @@
       background: #eef6fb;
     }
 
-    .review-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+    .review-carousel {
+      overflow: hidden;
+      padding: 8px 0 18px;
+      mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    }
+
+    .review-track {
+      width: max-content;
+      display: flex;
       gap: 18px;
+      animation: review-scroll 36s linear infinite;
+    }
+
+    .review-carousel:hover .review-track {
+      animation-play-state: paused;
     }
 
     .review-card {
+      width: 360px;
+      min-height: 214px;
+      flex: 0 0 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       padding: 24px;
     }
 
@@ -722,11 +739,33 @@
     .avatar {
       width: 42px;
       height: 42px;
+      flex: 0 0 42px;
       display: grid;
       place-items: center;
       border-radius: 50%;
       background: var(--gold);
       color: white;
+    }
+
+    @keyframes review-scroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(calc(-50% - 9px));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .review-track {
+        animation: none;
+      }
+
+      .review-carousel {
+        overflow-x: auto;
+        mask-image: none;
+      }
     }
 
     .booking {
@@ -865,7 +904,6 @@
       .services-grid,
       .process-layout,
       .price-grid,
-      .review-grid,
       .environment-layout,
       .booking-layout {
         grid-template-columns: 1fr;
@@ -953,6 +991,15 @@
 
       .thumb {
         height: 74px;
+      }
+
+      .review-carousel {
+        mask-image: none;
+      }
+
+      .review-card {
+        width: min(82vw, 340px);
+        flex-basis: min(82vw, 340px);
       }
 
       form {
@@ -1384,22 +1431,69 @@
           <p>我们更在意宠物的状态：少害怕、少拉扯、少等待，洗完还能轻松地摇尾巴。</p>
         </div>
 
-        <div class="review-grid">
-          <article class="review-card">
-            <div class="stars" aria-label="五星评价">★★★★★</div>
-            <p>家里柯基很怕吹风，这次店员分段吹干，中间还让它休息，回家完全没有闹脾气。</p>
-            <div class="reviewer"><span class="avatar">刘</span> 刘女士 · 柯基家长</div>
-          </article>
-          <article class="review-card">
-            <div class="stars" aria-label="五星评价">★★★★★</div>
-            <p>比熊修得很圆润，眼周也清爽了。洗前会确认造型照片，沟通很细。</p>
-            <div class="reviewer"><span class="avatar">陈</span> 陈先生 · 比熊家长</div>
-          </article>
-          <article class="review-card">
-            <div class="stars" aria-label="五星评价">★★★★★</div>
-            <p>猫咪第一次出门洗澡，独立房间很安静，洗后还发了皮肤和耳朵检查照片。</p>
-            <div class="reviewer"><span class="avatar">周</span> 周小姐 · 英短家长</div>
-          </article>
+        <div class="review-carousel" aria-label="客户评价轮播">
+          <div class="review-track">
+            <article class="review-card">
+              <div class="stars" aria-label="五星评价">★★★★★</div>
+              <p>家里柯基很怕吹风，这次店员分段吹干，中间还让它休息，回家完全没有闹脾气。</p>
+              <div class="reviewer"><span class="avatar">刘</span> 刘女士 · 柯基家长</div>
+            </article>
+            <article class="review-card">
+              <div class="stars" aria-label="五星评价">★★★★★</div>
+              <p>比熊修得很圆润，眼周也清爽了。洗前会确认造型照片，沟通很细。</p>
+              <div class="reviewer"><span class="avatar">陈</span> 陈先生 · 比熊家长</div>
+            </article>
+            <article class="review-card">
+              <div class="stars" aria-label="五星评价">★★★★★</div>
+              <p>猫咪第一次出门洗澡，独立房间很安静，洗后还发了皮肤和耳朵检查照片。</p>
+              <div class="reviewer"><span class="avatar">周</span> 周小姐 · 英短家长</div>
+            </article>
+            <article class="review-card">
+              <div class="stars" aria-label="五星评价">★★★★★</div>
+              <p>金毛毛量大，以前洗完总是半干。这次吹得很透，梳毛也耐心，身上香味很自然。</p>
+              <div class="reviewer"><span class="avatar">王</span> 王女士 · 金毛家长</div>
+            </article>
+            <article class="review-card">
+              <div class="stars" aria-label="五星评价">★★★★★</div>
+              <p>修剪前会先问生活习惯，不是只追求好看。胡子和脚边处理得干净，走路也舒服。</p>
+              <div class="reviewer"><span class="avatar">赵</span> 赵先生 · 雪纳瑞家长</div>
+            </article>
+            <article class="review-card">
+              <div class="stars" aria-label="五星评价">★★★★★</div>
+              <p>布偶比较敏感，护理师全程动作很轻。洗后还提醒耳朵护理和换毛期梳理频率。</p>
+              <div class="reviewer"><span class="avatar">林</span> 林小姐 · 布偶家长</div>
+            </article>
+            <article class="review-card" aria-hidden="true">
+              <div class="stars" aria-label="五星评价">★★★★★</div>
+              <p>家里柯基很怕吹风，这次店员分段吹干，中间还让它休息，回家完全没有闹脾气。</p>
+              <div class="reviewer"><span class="avatar">刘</span> 刘女士 · 柯基家长</div>
+            </article>
+            <article class="review-card" aria-hidden="true">
+              <div class="stars" aria-label="五星评价">★★★★★</div>
+              <p>比熊修得很圆润，眼周也清爽了。洗前会确认造型照片，沟通很细。</p>
+              <div class="reviewer"><span class="avatar">陈</span> 陈先生 · 比熊家长</div>
+            </article>
+            <article class="review-card" aria-hidden="true">
+              <div class="stars" aria-label="五星评价">★★★★★</div>
+              <p>猫咪第一次出门洗澡，独立房间很安静，洗后还发了皮肤和耳朵检查照片。</p>
+              <div class="reviewer"><span class="avatar">周</span> 周小姐 · 英短家长</div>
+            </article>
+            <article class="review-card" aria-hidden="true">
+              <div class="stars" aria-label="五星评价">★★★★★</div>
+              <p>金毛毛量大，以前洗完总是半干。这次吹得很透，梳毛也耐心，身上香味很自然。</p>
+              <div class="reviewer"><span class="avatar">王</span> 王女士 · 金毛家长</div>
+            </article>
+            <article class="review-card" aria-hidden="true">
+              <div class="stars" aria-label="五星评价">★★★★★</div>
+              <p>修剪前会先问生活习惯，不是只追求好看。胡子和脚边处理得干净，走路也舒服。</p>
+              <div class="reviewer"><span class="avatar">赵</span> 赵先生 · 雪纳瑞家长</div>
+            </article>
+            <article class="review-card" aria-hidden="true">
+              <div class="stars" aria-label="五星评价">★★★★★</div>
+              <p>布偶比较敏感，护理师全程动作很轻。洗后还提醒耳朵护理和换毛期梳理频率。</p>
+              <div class="reviewer"><span class="avatar">林</span> 林小姐 · 布偶家长</div>
+            </article>
+          </div>
         </div>
       </div>
     </section>

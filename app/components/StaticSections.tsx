@@ -35,7 +35,74 @@ export function Gallery() {
 }
 
 export function Reviews() {
-  return <StaticHtml html={REVIEWS_HTML} />;
+  const reviews = [
+    {
+      initial: "刘",
+      name: "刘女士 · 柯基家长",
+      text: "家里柯基很怕吹风，这次店员分段吹干，中间还让它休息，回家完全没有闹脾气。",
+    },
+    {
+      initial: "陈",
+      name: "陈先生 · 比熊家长",
+      text: "比熊修得很圆润，眼周也清爽了。洗前会确认造型照片，沟通很细。",
+    },
+    {
+      initial: "周",
+      name: "周小姐 · 英短家长",
+      text: "猫咪第一次出门洗澡，独立房间很安静，洗后还发了皮肤和耳朵检查照片。",
+    },
+    {
+      initial: "王",
+      name: "王女士 · 金毛家长",
+      text: "金毛毛量大，以前洗完总是半干。这次吹得很透，梳毛也耐心，身上香味很自然。",
+    },
+    {
+      initial: "赵",
+      name: "赵先生 · 雪纳瑞家长",
+      text: "修剪前会先问生活习惯，不是只追求好看。胡子和脚边处理得干净，走路也舒服。",
+    },
+    {
+      initial: "林",
+      name: "林小姐 · 布偶家长",
+      text: "布偶比较敏感，护理师全程动作很轻。洗后还提醒耳朵护理和换毛期梳理频率。",
+    },
+  ];
+  const carouselReviews = [...reviews, ...reviews];
+
+  return (
+    <section className="reviews" id="reviews">
+      <div className="section-inner">
+        <div className="section-head">
+          <div>
+            <p className="section-kicker">Reviews</p>
+            <h2>家长们的真实反馈</h2>
+          </div>
+          <p>我们更在意宠物的状态：少害怕、少拉扯、少等待，洗完还能轻松地摇尾巴。</p>
+        </div>
+
+        <div className="review-carousel" aria-label="客户评价轮播">
+          <div className="review-track">
+            {carouselReviews.map((review, index) => (
+              <article
+                className="review-card"
+                key={`${review.initial}-${index}`}
+                aria-hidden={index >= reviews.length}
+              >
+                <div className="stars" aria-label="五星评价">
+                  ★★★★★
+                </div>
+                <p>{review.text}</p>
+                <div className="reviewer">
+                  <span className="avatar">{review.initial}</span>
+                  {review.name}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export function Footer() {
