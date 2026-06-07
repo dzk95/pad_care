@@ -138,6 +138,12 @@
       transform: translateY(-1px);
     }
 
+    .button:disabled {
+      cursor: not-allowed;
+      opacity: 0.72;
+      transform: none;
+    }
+
     .hero {
       min-height: calc(100vh - 72px);
       display: grid;
@@ -863,6 +869,14 @@
       margin: 12px 0 0;
       color: var(--muted);
       font-size: 13px;
+    }
+
+    .form-note-success {
+      color: var(--teal);
+    }
+
+    .form-note-error {
+      color: #b94a2c;
     }
 
     footer {

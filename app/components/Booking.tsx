@@ -1,8 +1,55 @@
 "use client";
 
+import { FormEvent, useState } from "react";
+
 export function Booking() {
-  const handleBooking = () => {
-    window.alert("预约信息已记录，我们会尽快与您确认。");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState<"success" | "error" | "">("");
+
+  const handleBooking = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setIsSubmitting(true);
+    setMessage("");
+    setMessageType("");
+
+    try {
+      const response = await fetch("/api/appointments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customerName: formData.get("name"),
+          phone: formData.get("phone"),
+          petName: formData.get("petName"),
+          petType: formData.get("pet"),
+          service: formData.get("service"),
+          appointmentDate: formData.get("date"),
+          timeSlot: formData.get("time"),
+          note: formData.get("note"),
+        }),
+      });
+
+      const result = (await response.json()) as { message?: string };
+
+      if (!response.ok) {
+        throw new Error(result.message || "预约提交失败，请稍后再试。");
+      }
+
+      setMessage(result.message || "预约信息已提交，我们会尽快与您确认。");
+      setMessageType("success");
+      form.reset();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "预约提交失败，请稍后再试。");
+      setMessageType("error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -54,21 +101,27 @@ export function Booking() {
         </aside>
 
         <div className="form-panel">
-          <form>
+          <form onSubmit={handleBooking}>
             <label>
               家长姓名
-              <input type="text" name="name" placeholder="请输入姓名" />
+              <input type="text" name="name" placeholder="请输入姓名" required />
             </label>
             <label>
               手机号码
-              <input type="tel" name="phone" placeholder="请输入联系电话" />
+              <input
+                type="tel"
+                name="phone"
+                placeholder="请输入联系电话"
+                required
+              />
             </label>
             <label>
               狗狗名字
               <input
                 type="text"
-                name="dogName"
+                name="petName"
                 placeholder="请输入狗狗名字"
+                required
               />
             </label>
             <label>
@@ -91,7 +144,7 @@ export function Booking() {
             </label>
             <label>
               到店日期
-              <input type="date" name="date" />
+              <input type="date" name="date" required />
             </label>
             <label>
               期望时段
@@ -111,17 +164,19 @@ export function Booking() {
             </label>
             <button
               className="button full"
-              type="button"
-              onClick={handleBooking}
+              type="submit"
+              disabled={isSubmitting}
             >
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M22 2 11 13"></path>
                 <path d="m22 2-7 20-4-9-9-4 20-7Z"></path>
               </svg>
-              提交预约
+              {isSubmitting ? "提交中..." : "提交预约"}
             </button>
           </form>
-          <p className="form-note">页面为静态演示，表单不会真实提交到服务器。</p>
+          <p className={`form-note ${messageType ? `form-note-${messageType}` : ""}`}>
+            {message || "提交后会写入预约表，工作人员会在营业时间内联系确认。"}
+          </p>
         </div>
       </div>
     </section>
